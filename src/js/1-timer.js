@@ -11,29 +11,33 @@ import "izitoast/dist/css/iziToast.min.css";
 let userSelectedDate = null;
 
 const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  onClose(selectedDates) {
-      userSelectedDate = selectedDates[0];
-      if (userSelectedDate < new Date()) {
-          iziToast.error({
-              position: 'topRight',
-              color: 'red',
-              message: 'Please choose a date in the future',
-          });
-          document.querySelector('[data-start]').disabled = true;
-      } else {
-          document.querySelector('[data-start]').disabled = false;
-      }
-  },
+    enableTime: true,
+    time_24hr: true,
+    defaultDate: new Date(),
+    minuteIncrement: 1,
+    onClose(selectedDates) {
+        userSelectedDate = selectedDates[0];
+
+        if (!userSelectedDate || userSelectedDate <= Date.now()) {
+            startBtn.disabled = true;
+
+            iziToast.error({
+                position: "topRight",
+                message: "Please choose a date in the future",
+            });
+
+            return;
+        }
+
+        startBtn.disabled = false;
+    }
 };
 
+const startBtn = document.querySelector('[data-start]');
 
 flatpickr("#datetime-picker", options);
 
-const startBtn = document.querySelector('[data-start]');
+
 const daysEl = document.querySelector('[data-days]');
 const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
