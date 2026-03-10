@@ -1,6 +1,6 @@
 .input-date {
     border-radius: 4px;
-    width: 272px;
+    width: 240px;
     height: 40px;
     line-height: 1.5;
     letter-spacing: 0.04em;
@@ -55,6 +55,7 @@
 }
 
 .timer {
+    justify-content: space-between;
     margin-left: auto;
     margin-right: auto;
     display: flex;

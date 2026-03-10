@@ -8,6 +8,7 @@ import iziToast from "izitoast";
 // Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
 
+let userSelectedDate = null;
 
 const options = {
   enableTime: true,
@@ -15,10 +16,11 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-      let userSelectedDate = selectedDates[0];
+      userSelectedDate = selectedDates[0];
       if (userSelectedDate < new Date()) {
           iziToast.error({
-              title: 'Error',
+              position: 'topRight',
+              color: 'red',
               message: 'Please choose a date in the future',
           });
           document.querySelector('[data-start]').disabled = true;
@@ -37,13 +39,14 @@ const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
 
+startBtn.disabled = true;
+
 startBtn.addEventListener('click', () => {
-    const selectedDate = document.querySelector('#datetime-picker')._flatpickr.selectedDates[0];
     startBtn.disabled = true;
     document.querySelector('#datetime-picker').disabled = true;
     const timerId = setInterval(() => {
         const currentTime = new Date();
-        const timeDifference = selectedDate - currentTime;
+        const timeDifference = userSelectedDate - currentTime;
         if (timeDifference <= 0) {
             clearInterval(timerId);
             document.querySelector('#datetime-picker').disabled = false;
